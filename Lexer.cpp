@@ -70,10 +70,14 @@ void Lexer::Run(std::string& input) {
         }
         input.erase(0, maxRead);
         while( (input.size() != 0) && (isspace(input.at(0)))) { //Remove WhiteSpace
-            if(input.at(0) == '\n') { lineNumber++; }
+            if(input.at(0) == '\n') { lineNumber++; cout << "lexer.cpp lineNumber++" << endl; }
+            cout << "\"" << input.at(0) << "\"" << "whitespace removal: " << input << endl;
             input.erase(0, 1);
         }
     }
+
+    cout << "========================" << endl;
+
 
     //This makes the EOF token
     Automaton* endOfFileAuto = new MatcherAutomaton(TokenType::EOF_TYPE, 'Q'); //The Q means literally nothing!

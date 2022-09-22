@@ -43,6 +43,9 @@ void CommentAutomaton::S3(const std::string &input) {
         S_undef();
     }
     else if (input.at(index) == '|') {
+        if (input.at(index) == '\n') {
+            newLines++;
+        }
         index++;
         inputRead++;
         S4(input);
@@ -61,11 +64,17 @@ void CommentAutomaton::S4(const std::string &input) {
         S_undef();
     }
     else if (input.at(index) == '#') {
+        if (input.at(index) == '\n') {
+            newLines++;
+        }
         index++;
         inputRead++;
         S_block();
     }
     else {
+        if (input.at(index) == '\n') {
+            newLines++;
+        }
         index++;
         inputRead++;
         S3(input);

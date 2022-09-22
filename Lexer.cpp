@@ -76,6 +76,8 @@ void Lexer::Run(std::string& input) {
     }
 
     //This makes the EOF token
+    lineNumber++;
+    lineNumber == lineNumber -1;
     Automaton* endOfFileAuto = new MatcherAutomaton(TokenType::EOF_TYPE, 'Q'); //The Q means literally nothing!
     Token* oofToken = endOfFileAuto->CreateToken("", lineNumber);
     tokens.push_back(oofToken);

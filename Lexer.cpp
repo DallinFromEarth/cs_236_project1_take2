@@ -70,13 +70,10 @@ void Lexer::Run(std::string& input) {
         }
         input.erase(0, maxRead);
         while( (input.size() != 0) && (isspace(input.at(0)))) { //Remove WhiteSpace
-            if(input.at(0) == '\n') { lineNumber++; cout << "lexer.cpp lineNumber++" << endl; }
-            cout << "\"" << input.at(0) << "\"" << "whitespace removal: " << input << endl;
+            if(input.at(0) == '\n') { lineNumber++; }
             input.erase(0, 1);
         }
     }
-
-    cout << "========================" << endl;
 
 
     //This makes the EOF token

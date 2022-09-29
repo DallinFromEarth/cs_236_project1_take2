@@ -137,7 +137,12 @@ void Parser::parseHeadPredicate() {
 
 //production -> ID LEFT_PAREN parameter parameterList RIGHT_PAREN
 void Parser::parsePredicate() {
-
+    matchToCurrentToken(TokenType::ID);
+    matchToCurrentToken(TokenType::LEFT_PAREN);
+    parseParameter();
+    parseParameterList();
+    matchToCurrentToken(TokenType::RIGHT_PAREN);
+    return;
 }
 
 //production -> COMMA predicate predicateList | lambda

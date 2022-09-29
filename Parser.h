@@ -5,7 +5,7 @@
 #ifndef PROJECT_1_PARSER_H
 #define PROJECT_1_PARSER_H
 
-#include "token.h"
+#include "Token.h"
 #include <vector>
 #include <string>
 #include <iostream>

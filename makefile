@@ -1,12 +1,12 @@
-NUM?=1
-numbers=10 11 12 13 14 15 16 17 18 19 20 61 62
+NUM?=2
+numbers=21 22 23 24 25 26 27 28 61 62
 tests=project$(NUM)-exampleIO
 
 run:
 	for number in $(numbers); \
 	do \
 		./lab$(NUM) $(tests)/in$$number.txt > $(tests)/out.txt ; \
-		diff $(tests)/out$$number.txt $(tests)/out.txt || (echo "diff failed on test $$number \n") ; \
+		diff $(tests)/out$$number.txt $(tests)/out.txt || (echo "diff failed on test $$number cause you suck\n") ; \
 	done
 	rm $(tests)/out.txt
 

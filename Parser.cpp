@@ -9,10 +9,13 @@ void Parser::syntaxError(Token *invalidToken) {
     throw errorMessage;
 }
 
+//called for every terminal
 void Parser::matchToCurrentToken(TokenType currentType) {
     if (currentType == tokens.at(0)->getType()) {
-
+        tokens.erase(tokens.begin()); //pop
+        return;
     }
+    else { throw tokens.at(0); } //ERROR, failed parse
 }
 
 void Parser::parse() {

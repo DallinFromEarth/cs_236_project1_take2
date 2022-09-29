@@ -27,6 +27,13 @@ private:
     void parseFactList();
     void parseFact();
     void parseStringList();
+    void parseRuleList();
+    void parseRule();
+    void parseHeadPredicate();
+    void parsePredicate();
+    void parsePredicateList();
+    void parseParameter();
+    void parseParameterList();
 
 public:
     Parser(vector<Token*> inputTokens) { tokens = inputTokens; }

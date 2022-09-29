@@ -34,6 +34,8 @@ private:
     void parsePredicateList();
     void parseParameter();
     void parseParameterList();
+    void parseQuery();
+    void parseQueryList();
 
 public:
     Parser(vector<Token*> inputTokens) { tokens = inputTokens; }

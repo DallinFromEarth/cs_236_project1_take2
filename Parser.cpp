@@ -17,7 +17,6 @@ void Parser::matchToCurrentToken(TokenType currentType) {
         return;
     }
     else {
-        cout << "Oops I did it again: " << tokens.at(0)->toString() << endl;
         throw tokens.at(0);
     } //ERROR, failed parse
 }
@@ -30,7 +29,14 @@ void Parser::parse() {
             index = 0;
         }
     }
-    parseDatalogProgram();
+    try {
+        parseDatalogProgram();
+    } catch (Token* invalidToken) {
+        cout << "Failure!" << endl;
+        cout << "  " << invalidToken->toString() << endl;
+        return;
+    }
+    cout << "Success!" << endl;
 }
 
 void Parser::parseDatalogProgram() {
@@ -43,8 +49,13 @@ void Parser::parseDatalogProgram() {
     parseFactList();
     matchToCurrentToken(TokenType::RULES);
     matchToCurrentToken(TokenType::COLON);
-
-    cout << "success" << endl;
+    parseRuleList();
+    matchToCurrentToken(TokenType::QUERIES);
+    matchToCurrentToken(TokenType::COLON);
+    parseQuery();
+    parseQueryList();
+    matchToCurrentToken(TokenType::EOF_TYPE);
+    return;
 }
 
 //production -> scheme schemeList | lambda
@@ -172,6 +183,22 @@ void Parser::parseParameterList() {
         matchToCurrentToken(TokenType::COMMA);
         parseParameter();
         parseParameterList();
+    }
+    return;
+}
+
+//production -> predicate Q_MARK
+void Parser::parseQuery() {
+    parsePredicate();
+    matchToCurrentToken(TokenType::Q_MARK);
+    return;
+}
+
+//production -> query queryList | lambda
+void Parser::parseQueryList() {
+    if(tokens.at(0)->getType() == TokenType::ID) {
+        parseQuery();
+        parseQueryList();
     }
     return;
 }

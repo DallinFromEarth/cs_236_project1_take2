@@ -36,7 +36,7 @@ private:
 public:
     Token(TokenType type, std::string description, int line);
     string toString();
-    // TODO: add other needed methods
+    TokenType getType() { return typeOfToken; }
 };
 
 #endif // TOKEN_H

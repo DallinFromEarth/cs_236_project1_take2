@@ -32,7 +32,7 @@ public:
     void Run(std::string& input);
 
     string getAllTokens();
-    // TODO: add other public methods here
+    vector<Token*> getTokenVector() { return tokens; }
 
 };
 

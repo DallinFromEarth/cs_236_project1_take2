@@ -8,21 +8,31 @@
 #include "token.h"
 #include <vector>
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 
 class Parser {
 private:
     vector<Token*> tokens;
 
+    void syntaxError(Token* invalidToken);
+    void matchToCurrentToken(TokenType);
+
+    void parseDatalogProgram();
+    void parseSchemeList();
+    void parseScheme();
+    void parseIDList();
+    void parseFactList();
+    void parseFact();
+    void parseStringList();
+
 public:
     Parser(vector<Token*> inputTokens) { tokens = inputTokens; }
     ~Parser() { }
 
-    void syntaxError(Token* invalidToken);
-    void matchToCurrentToken(TokenType);
-
     void parse();
-    void parseDatalogProgram();
 
 };
 

@@ -15,4 +15,4 @@ add_executable(project_1
         Lexer.h
         main.cpp
         Token.cpp
-        Token.h MatcherAutomaton.cpp MatcherAutomaton.h KeywordAutomaton.cpp KeywordAutomaton.h IDAutomaton.cpp IDAutomaton.h StringAutomaton.cpp StringAutomaton.h CommentAutomaton.cpp CommentAutomaton.h Parser.cpp Parser.h Parameter.h Predicate.cpp Predicate.h)
+        Token.h MatcherAutomaton.cpp MatcherAutomaton.h KeywordAutomaton.cpp KeywordAutomaton.h IDAutomaton.cpp IDAutomaton.h StringAutomaton.cpp StringAutomaton.h CommentAutomaton.cpp CommentAutomaton.h Parser.cpp Parser.h Parameter.h Predicate.cpp Predicate.h Rule.cpp Rule.h)

@@ -21,7 +21,6 @@ public:
 
     string getActualValue() { return actualValue; }
     string getType() { return type; }
-
 };
 
 

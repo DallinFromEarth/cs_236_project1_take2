@@ -78,13 +78,16 @@ void Parser::parseScheme() {
 }
 
 //production->COMMA ID idList | lambda
-void Parser::parseIDList() {
+vector<string> Parser::parseIDList() {
+    vector<string> currentList;
     if(tokens.at(0)->getType() == TokenType::COMMA) {
         matchToCurrentToken(TokenType::COMMA);
+        currentList.push_back(tokens.at(0)->getActualValue());
         matchToCurrentToken(TokenType::ID);
-        parseIDList();
+        vector<string> listToAddOn = parseIDList();
+        currentList.insert(currentList.end(),listToAddOn.begin(), listToAddOn.end());
     }
-    return;
+    return currentList;
 }
 
 //production -> fact factList | lambda
@@ -137,17 +140,21 @@ void Parser::parseRule() {
 }
 
 //production -> ID LEFT_PAREN ID idList RIGHT_PAREN
-void Parser::parseHeadPredicate() {
+vector<string> Parser::parseHeadPredicate() {
+    vector<string> currentList;
+    currentList.push_back(tokens.at(0)->getActualValue());
     matchToCurrentToken(TokenType::ID);
     matchToCurrentToken(TokenType::LEFT_PAREN);
+    currentList.push_back(tokens.at(0)->getActualValue());
     matchToCurrentToken(TokenType::ID);
-    parseIDList();
+    vector<string> listToAddOn = parseIDList();
+    currentList.insert(currentList.end(),listToAddOn.begin(), listToAddOn.end());
     matchToCurrentToken(TokenType::RIGHT_PAREN);
-    return;
+    return currentList;
 }
 
 //production -> ID LEFT_PAREN parameter parameterList RIGHT_PAREN
-void Parser::parsePredicate() {
+Predicate Parser::parsePredicate() {
     vector<Parameter> parameterList;
     matchToCurrentToken(TokenType::ID);
     matchToCurrentToken(TokenType::LEFT_PAREN);
@@ -164,17 +171,19 @@ void Parser::parsePredicate() {
     cout << endl;
     ////////////////////////// */
 
-    return;
+    return Predicate(parameterList);
 }
 
 //production -> COMMA predicate predicateList | lambda
-void Parser::parsePredicateList() {
+vector<Predicate> Parser::parsePredicateList() {
+    vector<Predicate> currentList;
     if(tokens.at(0)->getType() == TokenType::COMMA) {
         matchToCurrentToken(TokenType::COMMA);
-        parsePredicate();
-        parsePredicateList();
+        currentList.push_back(parsePredicate());
+        vector<Predicate> listToAddOn = parsePredicateList();
+        currentList.insert(currentList.end(),listToAddOn.begin(), listToAddOn.end());
     }
-    return;
+    return currentList;
 }
 
 //production -> STRING | ID

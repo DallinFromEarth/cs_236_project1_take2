@@ -13,10 +13,9 @@ using namespace std;
 class Predicate {
 private:
     vector<Parameter> parameters;
-    string id;
 
 public:
-    Predicate(string inputID) { id = inputID; }
+    Predicate(vector<Parameter> input) { parameters = input; }
 
     void addParameter(Parameter input) { parameters.push_back(input); }
 

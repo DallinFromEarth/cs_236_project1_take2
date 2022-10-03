@@ -6,6 +6,8 @@
 #define PROJECT_1_PARSER_H
 
 #include "Token.h"
+#include "Parameter.h"
+#include "Predicate.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -32,8 +34,8 @@ private:
     void parseHeadPredicate();
     void parsePredicate();
     void parsePredicateList();
-    void parseParameter();
-    void parseParameterList();
+    Parameter parseParameter();
+    vector<Parameter> parseParameterList();
     void parseQuery();
     void parseQueryList();
 
@@ -42,7 +44,6 @@ public:
     ~Parser() { }
 
     void parse();
-
 };
 
 

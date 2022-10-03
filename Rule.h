@@ -12,7 +12,6 @@ private:
     vector<Predicate> bodyPredicates;
 public:
     Rule();
-    ~Rule();
 
     void setHeadPredicate(Predicate input);
     void addBodyPredicate(Predicate input);

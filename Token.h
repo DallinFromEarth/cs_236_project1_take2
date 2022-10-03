@@ -38,6 +38,7 @@ public:
     Token(TokenType type, std::string description, int line);
     string toString();
     TokenType getType() { return typeOfToken; }
+    string getActualValue() { return actualValue; }
 };
 
 #endif // TOKEN_H

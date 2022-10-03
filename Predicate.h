@@ -17,7 +17,6 @@ private:
 
 public:
     Predicate(string inputID) { id = inputID; }
-    ~Predicate();
 
     void addParameter(Parameter input) { parameters.push_back(input); }
 

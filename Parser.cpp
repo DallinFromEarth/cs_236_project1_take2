@@ -148,11 +148,22 @@ void Parser::parseHeadPredicate() {
 
 //production -> ID LEFT_PAREN parameter parameterList RIGHT_PAREN
 void Parser::parsePredicate() {
+    vector<Parameter> parameterList;
     matchToCurrentToken(TokenType::ID);
     matchToCurrentToken(TokenType::LEFT_PAREN);
-    parseParameter();
-    parseParameterList();
+    parameterList.push_back(parseParameter());
+    vector<Parameter> listFromRecursion = parseParameterList();
+    parameterList.insert(parameterList.end(), listFromRecursion.begin(), listFromRecursion.end());
     matchToCurrentToken(TokenType::RIGHT_PAREN);
+
+    /* ///DEBUGGING STUFF/////
+    cout << "Predicate list of parameters:" << endl;
+    for (auto Parameter : parameterList) {
+        cout << Parameter.getActualValue() << " --- ";
+    }
+    cout << endl;
+    ////////////////////////// */
+
     return;
 }
 
@@ -167,24 +178,27 @@ void Parser::parsePredicateList() {
 }
 
 //production -> STRING | ID
-void Parser::parseParameter() {
+Parameter Parser::parseParameter() {
+    Parameter returnValue = Parameter(tokens.at(0)->getActualValue());
     if(tokens.at(0)->getType() == TokenType::STRING) {
         matchToCurrentToken(TokenType::STRING);
     } else {
         matchToCurrentToken(TokenType::ID);
         //If it should fail on this part, ID will throw for us
     }
-    return;
+    return returnValue;
 }
 
 //production -> COMMA parameter parameterList | lambda
-void Parser::parseParameterList() {
+vector<Parameter> Parser::parseParameterList() {
+    vector<Parameter> currentList;
     if(tokens.at(0)->getType() == TokenType::COMMA) {
         matchToCurrentToken(TokenType::COMMA);
-        parseParameter();
-        parseParameterList();
+        currentList.push_back(parseParameter());
+        vector<Parameter> listToAddOn = parseParameterList();
+        currentList.insert(currentList.end(),listToAddOn.begin(), listToAddOn.end());
     }
-    return;
+    return currentList;
 }
 
 //production -> predicate Q_MARK

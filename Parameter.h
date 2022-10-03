@@ -11,16 +11,11 @@ using namespace std;
 class Parameter {
 private:
     string actualValue;
-    string type; //ID or String type from token
+
 public:
-    Parameter(string inputValue, string inputType) {
-        actualValue = inputValue;
-        type = inputType;
-    }
-    ~Parameter();
+    Parameter(string inputValue) { actualValue = inputValue; }
 
     string getActualValue() { return actualValue; }
-    string getType() { return type; }
 };
 
 

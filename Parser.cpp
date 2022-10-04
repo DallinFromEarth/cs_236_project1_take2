@@ -42,7 +42,7 @@ void Parser::parse() {
 void Parser::parseDatalogProgram() {
     matchToCurrentToken(TokenType::SCHEMES);
     matchToCurrentToken(TokenType::COLON);
-    parseScheme();
+    program.addScheme(parseScheme());
     parseSchemeList();
     matchToCurrentToken(TokenType::FACTS);
     matchToCurrentToken(TokenType::COLON);
@@ -52,11 +52,14 @@ void Parser::parseDatalogProgram() {
     parseRuleList();
     matchToCurrentToken(TokenType::QUERIES);
     matchToCurrentToken(TokenType::COLON);
-    parseQuery();
+    program.addQuery(parseQuery());
     parseQueryList();
     matchToCurrentToken(TokenType::EOF_TYPE);
 
-    cout << "test" << program.rulesToString() << endl;
+    cout << program.schemesToString() << endl;
+    cout << program.factsToString() << endl;
+    cout << program.rulesToString() << endl;
+    cout << program.queriesToString() << endl;
 
     return;
 }
@@ -64,20 +67,26 @@ void Parser::parseDatalogProgram() {
 //production -> scheme schemeList | lambda
 void Parser::parseSchemeList() {
     if(tokens.at(0)->getType() == TokenType::ID) {
-        parseScheme();
+        program.addScheme(parseScheme());
         parseSchemeList();
     }
     return;
 }
 
 //production->ID LEFT_PAREN ID idList RIGHT_PAREN
-void Parser::parseScheme() {
+Predicate Parser::parseScheme() {
+    vector<Parameter> currentList;
+    string schemeID = tokens.at(0)->getActualValue();
     matchToCurrentToken(TokenType::ID);
     matchToCurrentToken(TokenType::LEFT_PAREN);
+    currentList.push_back( Parameter(tokens.at(0)->getActualValue()) );
     matchToCurrentToken(TokenType::ID);
-    parseIDList();
+    vector<string> stringList = parseIDList();
+    for (int i = 0; i < stringList.size(); i++) {
+        currentList.push_back( Parameter(stringList.at(i)) );
+    }
     matchToCurrentToken(TokenType::RIGHT_PAREN);
-    return;
+    return Predicate(currentList, schemeID);
 }
 
 //production->COMMA ID idList | lambda
@@ -96,31 +105,39 @@ vector<string> Parser::parseIDList() {
 //production -> fact factList | lambda
 void Parser::parseFactList() {
     if(tokens.at(0)->getType() == TokenType::ID) {
-        parseFact();
+        program.addFact(parseFact());
         parseFactList();
     }
     return;
 }
 
 //production -> ID LEFT_PAREN STRING stringList RIGHT_PAREN PERIOD
-void Parser::parseFact() {
+Predicate Parser::parseFact() {
+    vector<Parameter> parameterList;
+    string predicateID = tokens.at(0)->getActualValue();
     matchToCurrentToken(TokenType::ID);
     matchToCurrentToken(TokenType::LEFT_PAREN);
+    parameterList.push_back( Parameter(tokens.at(0)->getActualValue()) );
     matchToCurrentToken(TokenType::STRING);
-    parseStringList();
+    vector<Parameter> listToAddOn = parseStringList();
+    parameterList.insert(parameterList.end(),listToAddOn.begin(), listToAddOn.end());
     matchToCurrentToken(TokenType::RIGHT_PAREN);
     matchToCurrentToken(TokenType::PERIOD);
-    return;
+    return Predicate(parameterList, predicateID);
 }
 
 //production -> COMMA STRING stringList | lambda
-void Parser::parseStringList() {
+vector<Parameter> Parser::parseStringList() {
+    vector<Parameter> currentList;
     if(tokens.at(0)->getType() == TokenType::COMMA) {
         matchToCurrentToken(TokenType::COMMA);
+        Parameter newParameter = Parameter(tokens.at(0)->getActualValue());
+        currentList.push_back(newParameter);
         matchToCurrentToken(TokenType::STRING);
-        parseStringList();
+        vector<Parameter> listToAddOn = parseStringList();
+        currentList.insert(currentList.end(),listToAddOn.begin(), listToAddOn.end());
     }
-    return;
+    return currentList;
 }
 
 //production -> rule ruleList | lambda
@@ -217,21 +234,19 @@ vector<Parameter> Parser::parseParameterList() {
 }
 
 //production -> predicate Q_MARK
-void Parser::parseQuery() {
-    parsePredicate();
+Predicate Parser::parseQuery() {
+    Predicate returnValue = parsePredicate();
     matchToCurrentToken(TokenType::Q_MARK);
-    return;
+    return returnValue;
 }
 
 //production -> query queryList | lambda
 void Parser::parseQueryList() {
     if(tokens.at(0)->getType() == TokenType::ID) {
-        parseQuery();
+        program.addQuery(parseQuery());
         parseQueryList();
     }
     return;
 }
-
-
 
 

@@ -26,21 +26,21 @@ private:
     void matchToCurrentToken(TokenType);
 
     void parseDatalogProgram();
-    void parseSchemeList();
-    void parseScheme();
+    void parseSchemeList(); //top level, pushes back into program on its own
+    Predicate parseScheme();
     vector<string> parseIDList();
-    void parseFactList();
-    void parseFact();
-    void parseStringList();
-    void parseRuleList();
+    void parseFactList(); //top level, pushes back into program on its own
+    Predicate parseFact();
+    vector<Parameter> parseStringList(); //treat strings as parameters
+    void parseRuleList(); //top level, pushes back into program on its own
     Rule parseRule();
     vector<string> parseHeadPredicate();
     Predicate parsePredicate();
     vector<Predicate> parsePredicateList();
     Parameter parseParameter();
     vector<Parameter> parseParameterList();
-    void parseQuery();
-    void parseQueryList();
+    Predicate parseQuery();
+    void parseQueryList(); //top level, pushes back into program on its own
 
 public:
     Parser(vector<Token*> inputTokens) { tokens = inputTokens; }

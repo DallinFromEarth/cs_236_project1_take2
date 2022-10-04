@@ -13,7 +13,7 @@ string Rule::toString() {
     }
     out << ") :- ";
     for (int i = 0; i < bodyPredicates.size(); i++) {
-        out << bodyPredicates.at(0).toString();
+        out << bodyPredicates.at(i).toString();
         if (i != bodyPredicates.size() - 1) { out << ","; }
     }
     out << ".";

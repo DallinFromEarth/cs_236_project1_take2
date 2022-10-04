@@ -28,3 +28,30 @@ string DatalogProgram::rulesToString() {
     }
     return out.str();
 }
+
+string DatalogProgram::schemesToString() {
+    stringstream out;
+    out << "Schemes(" << schemes.size() << "):" << endl;
+    for (int i = 0; i < schemes.size(); i++) {
+        out << "  " << schemes.at(i).toString() << endl;
+    }
+    return out.str();
+}
+
+string DatalogProgram::factsToString() {
+    stringstream out;
+    out << "Facts(" << facts.size() << "):" << endl;
+    for (int i = 0; i < facts.size(); i++) {
+        out << "  " << facts.at(i).toString() << "." << endl;
+    }
+    return out.str();
+}
+
+string DatalogProgram::queriesToString() {
+    stringstream out;
+    out << "Queries(" << queries.size() << "):" << endl;
+    for (int i = 0; i < queries.size(); i++) {
+        out << "  " << queries.at(i).toString() << "?" << endl;
+    }
+    return out.str();
+}

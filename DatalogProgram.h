@@ -24,6 +24,9 @@ public:
     void addQuery(Predicate input);
 
     string rulesToString();
+    string schemesToString();
+    string factsToString();
+    string queriesToString();
 
 };
 

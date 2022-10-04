@@ -5,6 +5,7 @@
 #ifndef PROJECT_1_RULE_H
 #define PROJECT_1_RULE_H
 #include "Predicate.h"
+#include <sstream>
 
 class Rule {
 private:
@@ -15,6 +16,8 @@ public:
         headPredicate = head;
         bodyPredicates = body;
     }
+
+    string toString();
 };
 
 

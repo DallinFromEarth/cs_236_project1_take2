@@ -6,19 +6,25 @@
 #define PROJECT_1_PREDICATE_H
 #include <vector>
 #include <string>
+#include <sstream>
 #include "Parameter.h"
 
 using namespace std;
 
 class Predicate {
 private:
+    string id;
     vector<Parameter> parameters;
 
 public:
-    Predicate(vector<Parameter> input) { parameters = input; }
+    Predicate(vector<Parameter> inputList, string inputID) {
+        parameters = inputList;
+        id = inputID;
+    }
 
     void addParameter(Parameter input) { parameters.push_back(input); }
 
+    string toString();
 };
 
 

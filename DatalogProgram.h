@@ -23,6 +23,8 @@ public:
     void addFact(Predicate input);
     void addQuery(Predicate input);
 
+    string rulesToString();
+
 };
 
 

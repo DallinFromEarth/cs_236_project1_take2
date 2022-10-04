@@ -55,6 +55,9 @@ void Parser::parseDatalogProgram() {
     parseQuery();
     parseQueryList();
     matchToCurrentToken(TokenType::EOF_TYPE);
+
+    cout << "test" << program.rulesToString() << endl;
+
     return;
 }
 
@@ -158,6 +161,7 @@ vector<string> Parser::parseHeadPredicate() {
 //production -> ID LEFT_PAREN parameter parameterList RIGHT_PAREN
 Predicate Parser::parsePredicate() {
     vector<Parameter> parameterList;
+    string predicateID = tokens.at(0)->getActualValue();
     matchToCurrentToken(TokenType::ID);
     matchToCurrentToken(TokenType::LEFT_PAREN);
     parameterList.push_back(parseParameter());
@@ -173,7 +177,7 @@ Predicate Parser::parsePredicate() {
     cout << endl;
     ////////////////////////// */
 
-    return Predicate(parameterList);
+    return Predicate(parameterList, predicateID);
 }
 
 //production -> COMMA predicate predicateList | lambda

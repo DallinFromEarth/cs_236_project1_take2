@@ -19,3 +19,12 @@ void DatalogProgram::addFact(Predicate input) {
 void DatalogProgram::addQuery(Predicate input) {
     queries.push_back(input);
 }
+
+string DatalogProgram::rulesToString() {
+    stringstream out;
+    out << "Rules(" << rules.size() << "):" << endl;
+    for (int i = 0; i < rules.size(); i++) {
+        out << "  " << rules.at(i).toString() << endl;
+    }
+    return out.str();
+}

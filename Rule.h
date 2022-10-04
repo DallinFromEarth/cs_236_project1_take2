@@ -8,13 +8,13 @@
 
 class Rule {
 private:
-    Predicate headPredicate;
+    vector<string> headPredicate;
     vector<Predicate> bodyPredicates;
 public:
-    Rule();
-
-    void setHeadPredicate(Predicate input);
-    void addBodyPredicate(Predicate input);
+    Rule(vector<string> head, vector<Predicate> body) {
+        headPredicate = head;
+        bodyPredicates = body;
+    }
 };
 
 

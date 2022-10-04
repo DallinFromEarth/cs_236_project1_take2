@@ -16,8 +16,7 @@ private:
     vector<Predicate> facts; //they don't care about your feelings
     vector<Predicate> queries;
 public:
-    DatalogProgram();
-    ~DatalogProgram();
+    DatalogProgram() {}
 
     void addRule(Rule input);
     void addScheme(Predicate input);

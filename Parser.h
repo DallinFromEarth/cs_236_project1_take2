@@ -8,6 +8,8 @@
 #include "Token.h"
 #include "Parameter.h"
 #include "Predicate.h"
+#include "Rule.h"
+#include "DatalogProgram.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -18,6 +20,7 @@ using namespace std;
 class Parser {
 private:
     vector<Token*> tokens;
+    DatalogProgram program;
 
     void syntaxError(Token* invalidToken);
     void matchToCurrentToken(TokenType);
@@ -30,7 +33,7 @@ private:
     void parseFact();
     void parseStringList();
     void parseRuleList();
-    void parseRule();
+    Rule parseRule();
     vector<string> parseHeadPredicate();
     Predicate parsePredicate();
     vector<Predicate> parsePredicateList();

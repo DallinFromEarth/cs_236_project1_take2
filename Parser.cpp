@@ -123,20 +123,22 @@ void Parser::parseStringList() {
 //production -> rule ruleList | lambda
 void Parser::parseRuleList() {
     if(tokens.at(0)->getType() == TokenType::ID) {
-        parseRule();
+        program.addRule(parseRule());
         parseRuleList();
     }
     return;
 }
 
 //production -> headPredicate COLON_DASH predicate predicateList PERIOD
-void Parser::parseRule() {
-    parseHeadPredicate();
+Rule Parser::parseRule() {
+    vector<string> headPredicate = parseHeadPredicate();
+    vector<Predicate> bodyPredicates;
     matchToCurrentToken(TokenType::COLON_DASH);
-    parsePredicate();
-    parsePredicateList();
+    bodyPredicates.push_back(parsePredicate());
+    vector<Predicate> listToAddOn = parsePredicateList();
+    bodyPredicates.insert(bodyPredicates.end(),listToAddOn.begin(), listToAddOn.end());
     matchToCurrentToken(TokenType::PERIOD);
-    return;
+    return Rule(headPredicate, bodyPredicates);
 }
 
 //production -> ID LEFT_PAREN ID idList RIGHT_PAREN

@@ -23,7 +23,7 @@ void DatalogProgram::addQuery(Predicate input) {
 string DatalogProgram::rulesToString() {
     stringstream out;
     out << "Rules(" << rules.size() << "):" << endl;
-    for (int i = 0; i < rules.size(); i++) {
+    for (unsigned int i = 0; i < rules.size(); i++) {
         out << "  " << rules.at(i).toString() << endl;
     }
     return out.str();
@@ -32,7 +32,7 @@ string DatalogProgram::rulesToString() {
 string DatalogProgram::schemesToString() {
     stringstream out;
     out << "Schemes(" << schemes.size() << "):" << endl;
-    for (int i = 0; i < schemes.size(); i++) {
+    for (unsigned int i = 0; i < schemes.size(); i++) {
         out << "  " << schemes.at(i).toString() << endl;
     }
     return out.str();
@@ -41,7 +41,7 @@ string DatalogProgram::schemesToString() {
 string DatalogProgram::factsToString() {
     stringstream out;
     out << "Facts(" << facts.size() << "):" << endl;
-    for (int i = 0; i < facts.size(); i++) {
+    for (unsigned int i = 0; i < facts.size(); i++) {
         out << "  " << facts.at(i).toString() << "." << endl;
     }
     return out.str();
@@ -50,7 +50,7 @@ string DatalogProgram::factsToString() {
 string DatalogProgram::queriesToString() {
     stringstream out;
     out << "Queries(" << queries.size() << "):" << endl;
-    for (int i = 0; i < queries.size(); i++) {
+    for (unsigned int i = 0; i < queries.size(); i++) {
         out << "  " << queries.at(i).toString() << "?" << endl;
     }
     return out.str();
@@ -66,9 +66,9 @@ string DatalogProgram::domainToString() {
 
 set<string> DatalogProgram::getDomain() {
     set<string> domainSet;
-    for (int i = 0; i < facts.size(); i++) {
+    for (unsigned int i = 0; i < facts.size(); i++) {
         vector<Parameter> parameterList = facts.at(i).getParameters();
-        for (int j = 0; j < parameterList.size(); j++) {
+        for (unsigned int j = 0; j < parameterList.size(); j++) {
             domainSet.insert(parameterList.at(j).getActualValue());
         }
     }

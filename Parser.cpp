@@ -78,7 +78,7 @@ Predicate Parser::parseScheme() {
     currentList.push_back( Parameter(tokens.at(0)->getActualValue()) );
     matchToCurrentToken(TokenType::ID);
     vector<string> stringList = parseIDList();
-    for (int i = 0; i < stringList.size(); i++) {
+    for (unsigned int i = 0; i < stringList.size(); i++) {
         currentList.push_back( Parameter(stringList.at(i)) );
     }
     matchToCurrentToken(TokenType::RIGHT_PAREN);

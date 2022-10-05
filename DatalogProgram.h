@@ -17,9 +17,10 @@ private:
     vector<Predicate> schemes;
     vector<Predicate> facts; //they don't care about your feelings
     vector<Predicate> queries;
+    bool validProgram;
 
 public:
-    DatalogProgram() {}
+    DatalogProgram() { validProgram = false; }
 
     void addRule(Rule input);
     void addScheme(Predicate input);
@@ -35,6 +36,7 @@ public:
 
     string fullProgramToString();
 
+    bool isProgramValid() { return validProgram; }
 };
 
 

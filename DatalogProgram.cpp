@@ -77,11 +77,11 @@ set<string> DatalogProgram::getDomain() {
 
 string DatalogProgram::fullProgramToString() {
     stringstream out;
-    out << schemesToString() << endl;
-    out << factsToString() << endl;
-    out << rulesToString() << endl;
-    out << queriesToString() << endl;
-    out << domainToString() << endl;
+    out << schemesToString();
+    out << factsToString();
+    out << rulesToString();
+    out << queriesToString();
+    out << domainToString();
     return out.str();
 }
 

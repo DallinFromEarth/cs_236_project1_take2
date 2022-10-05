@@ -25,6 +25,7 @@ DatalogProgram Parser::parse() {
     //This section removes all the comments
     for(unsigned int index = 0; index < tokens.size(); index++) {
         if(tokens.at(index)->getType() == TokenType::COMMENT) {
+            cout << "comment erased from parser: " << tokens.at(index)->getActualValue() << endl;
             tokens.erase(tokens.begin() + index);
             index = 0;
         }

@@ -18,7 +18,7 @@ class Lexer
 {
 private:
     vector<Automaton*> automata;
-    vector<Token*> tokens;
+    vector<Token*>tokens;
     string stringToRead;
 
     void CreateAutomata();

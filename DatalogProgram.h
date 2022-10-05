@@ -37,6 +37,7 @@ public:
     string fullProgramToString();
 
     bool isProgramValid() { return validProgram; }
+    void programSuccess() { validProgram = true; }
 };
 
 

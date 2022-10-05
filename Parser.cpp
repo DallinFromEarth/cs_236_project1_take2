@@ -37,6 +37,7 @@ DatalogProgram Parser::parse() {
         return program;
     }
     cout << "Success!" << endl;
+    program.programSuccess();
     return program;
 }
 

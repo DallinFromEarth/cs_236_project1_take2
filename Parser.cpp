@@ -21,7 +21,7 @@ void Parser::matchToCurrentToken(TokenType currentType) {
     } //ERROR, failed parse
 }
 
-void Parser::parse() {
+DatalogProgram Parser::parse() {
     //This section removes all the comments
     for(unsigned int index = 0; index < tokens.size(); index++) {
         if(tokens.at(index)->getType() == TokenType::COMMENT) {
@@ -34,9 +34,10 @@ void Parser::parse() {
     } catch (Token* invalidToken) {
         cout << "Failure!" << endl;
         cout << "  " << invalidToken->toString() << endl;
-        return;
+        return program;
     }
     cout << "Success!" << endl;
+    return program;
 }
 
 void Parser::parseDatalogProgram() {
@@ -55,11 +56,6 @@ void Parser::parseDatalogProgram() {
     program.addQuery(parseQuery());
     parseQueryList();
     matchToCurrentToken(TokenType::EOF_TYPE);
-
-    cout << program.schemesToString() << endl;
-    cout << program.factsToString() << endl;
-    cout << program.rulesToString() << endl;
-    cout << program.queriesToString() << endl;
 
     return;
 }

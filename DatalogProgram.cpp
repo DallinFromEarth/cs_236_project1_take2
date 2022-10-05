@@ -55,3 +55,46 @@ string DatalogProgram::queriesToString() {
     }
     return out.str();
 }
+
+string DatalogProgram::domainToString() {
+    set<string> domain = getDomain();
+    stringstream out;
+    out << "Domain(" << domain.size() << "):" << endl;
+    for (auto x : domain) out << "  " << x << endl;
+    return out.str();
+}
+
+set<string> DatalogProgram::getDomain() {
+    set<string> domainSet;
+    for (int i = 0; i < facts.size(); i++) {
+        vector<Parameter> parameterList = facts.at(i).getParameters();
+        for (int j = 0; j < parameterList.size(); j++) {
+            domainSet.insert(parameterList.at(j).getActualValue());
+        }
+    }
+    return domainSet;
+}
+
+string DatalogProgram::fullProgramToString() {
+    stringstream out;
+    out << schemesToString() << endl;
+    out << factsToString() << endl;
+    out << rulesToString() << endl;
+    out << queriesToString() << endl;
+    out << domainToString() << endl;
+    return out.str();
+}
+
+/* std::set<std::string> sortedItems;
+
+    for(int i = 1; i <= 5; ++i)
+    {
+        std::string name;
+        std::cout << i << ". ";
+        std::cin >> name;
+
+        sortedItems.insert(name);
+    }
+
+    std::for_each(sortedItems.begin(), sortedItems.end(), &print);
+    return 0; */

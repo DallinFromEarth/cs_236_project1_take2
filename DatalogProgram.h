@@ -8,6 +8,8 @@
 #include "Predicate.h"
 #include "Rule.h"
 #include "Token.h"
+#include <set>
+#include <iostream>
 
 class DatalogProgram {
 private:
@@ -15,6 +17,7 @@ private:
     vector<Predicate> schemes;
     vector<Predicate> facts; //they don't care about your feelings
     vector<Predicate> queries;
+
 public:
     DatalogProgram() {}
 
@@ -27,6 +30,10 @@ public:
     string schemesToString();
     string factsToString();
     string queriesToString();
+    string domainToString();
+    set<string> getDomain();
+
+    string fullProgramToString();
 
 };
 

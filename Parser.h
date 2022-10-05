@@ -46,7 +46,7 @@ public:
     Parser(vector<Token*> inputTokens) { tokens = inputTokens; }
     ~Parser() { }
 
-    void parse();
+    DatalogProgram parse();
 };
 
 

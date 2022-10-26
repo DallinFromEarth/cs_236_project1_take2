@@ -58,7 +58,6 @@ void Parser::parseDatalogProgram() {
     program.addQuery(parseQuery());
     parseQueryList();
     matchToCurrentToken(TokenType::EOF_TYPE);
-
     return;
 }
 

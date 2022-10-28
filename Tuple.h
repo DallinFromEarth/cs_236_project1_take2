@@ -14,12 +14,19 @@ using namespace std;
 
 class Tuple {
 private:
-    vector<string> data;
 
 public:
     Tuple(vector<string> inputData) { data = inputData; }
 
+    vector<string> data;
+
+    //just for testing i think
     string toSting();
+    string getEntryAtCol(unsigned int col) { return data.at(col); }
+
+    bool operator< (const Tuple &rhs) const {
+        return data < rhs.data;
+    }
 };
 
 

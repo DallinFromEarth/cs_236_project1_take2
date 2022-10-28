@@ -9,15 +9,23 @@
 #include <sstream>
 #include <string>
 #include "Tuple.h"
+#include <iostream>
 
 using namespace std;
 
 class RelationHeader {
 private:
     vector<string> data;
+    bool hasHeader;
 
 public:
-    RelationHeader(vector<string> inputData) {data = inputData;}
+    RelationHeader() { hasHeader = false; }
+    //constructor error work around
+    void addHeader(vector<string> inputData) {
+        if(hasHeader) { throw "Ya dingus, Header already added - first item: " + data.at(0); }
+        data = inputData;
+        hasHeader = true;
+    }
 
     string toString() {
         stringstream out;
@@ -32,6 +40,10 @@ public:
         out << ")";
         return out.str();
     }
+
+    string getHeaderAtCol(unsigned int col) { return data.at(col); }
+
+    unsigned int numOfCol() { return data.size(); }
 };
 
 

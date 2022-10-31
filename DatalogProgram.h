@@ -38,6 +38,11 @@ public:
 
     bool isProgramValid() { return validProgram; }
     void programSuccess() { validProgram = true; }
+
+    vector<Predicate> getSchemes() { return schemes; }
+    vector<Predicate> getFacts() { return facts; }
+    vector<Predicate> getQueries() { return queries; }
+    vector<Rule> getRules() { return rules; }
 };
 
 

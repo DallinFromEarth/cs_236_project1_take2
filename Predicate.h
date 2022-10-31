@@ -25,6 +25,7 @@ public:
     void addParameter(Parameter input) { parameters.push_back(input); }
 
     string toString();
+    string getID() {return id;}
 
     vector<Parameter> getParameters() { return parameters; }
 };

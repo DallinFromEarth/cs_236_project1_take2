@@ -53,6 +53,8 @@ public:
     void setTable(set<Tuple> newTable) { table = newTable; }
     string getName() { return name; }
     RelationHeader getHeader() { return header; }
+
+    string headerToString() { return header.toString(); }
 };
 
 

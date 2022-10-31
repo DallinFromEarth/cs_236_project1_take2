@@ -32,6 +32,16 @@ public:
         steve.setTable(old->getTable());
         return steve;
     }
+
+    string toString() {
+        stringstream out;
+        out << "START OF DATABASE" << endl;
+        for (auto table : data) {
+            out << table.second->headerToString() << endl << endl;
+        }
+        out << "END OF DATABASE" << endl;
+        return out.str();
+    }
 };
 
 #endif //PROJECT_1_DATABASE_H

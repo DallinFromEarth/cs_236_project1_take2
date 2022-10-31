@@ -23,6 +23,17 @@ public:
         header.addHeader(inputHeader);
     }
 
+    Relation(string inputName, RelationHeader inputHeader) {
+        name = inputName;
+        header = inputHeader;
+    }
+
+    Relation(const Relation& original) {
+        name = original.name;
+        header = original.header;
+        table = original.table;
+    }
+
     string toString() {
         stringstream out;
         for (Tuple t : table) {
@@ -38,6 +49,10 @@ public:
         return out.str();
     }
     void addTuple(Tuple input){ table.insert(input); }
+    set<Tuple> getTable() { return table; }
+    void setTable(set<Tuple> newTable) { table = newTable; }
+    string getName() { return name; }
+    RelationHeader getHeader() { return header; }
 };
 
 

@@ -15,7 +15,6 @@ using namespace std;
 
 class RelationHeader {
 private:
-    vector<string> data;
     bool hasHeader;
 
 public:
@@ -26,6 +25,8 @@ public:
         data = inputData;
         hasHeader = true;
     }
+
+    vector<string> data;
 
     string toString() {
         stringstream out;

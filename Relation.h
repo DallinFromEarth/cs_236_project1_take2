@@ -34,27 +34,18 @@ public:
         table = original.table;
     }
 
-    string toString() {
-        stringstream out;
-        for (Tuple t : table) {
-            for (unsigned int i = 0; i < header.numOfCol(); i++) {
-                out << header.getHeaderAtCol(i) << "=";
-                out << t.getEntryAtCol(i);
-                if (i != header.numOfCol() - 1) {
-                    out << ", ";
-                }
-            }
-            out << endl;
-        }
-        return out.str();
-    }
+    string toString();
+    string headerToString() { return header.toString(); }
     void addTuple(Tuple input){ table.insert(input); }
     set<Tuple> getTable() { return table; }
     void setTable(set<Tuple> newTable) { table = newTable; }
     string getName() { return name; }
     RelationHeader getHeader() { return header; }
 
-    string headerToString() { return header.toString(); }
+    Relation select1(int colIndex, string value);
+    Relation select2(int colIndex1, int colIndex2);
+    Relation project(vector<int> columnsToProject);
+    Relation rename(vector<string> newColumnNames);
 };
 
 

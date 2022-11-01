@@ -16,7 +16,14 @@ void Interpreter::interpretSchemes() {
 }
 
 void Interpreter::interpretFacts() {
-
+    for (Predicate fact : program.getFacts()) {
+        string id = fact.getID();
+        vector<string> stuff;
+        for (Parameter parameter : fact.getParameters()) {
+            stuff.push_back(parameter.getActualValue());
+        }
+        data.getRelation(id)->addTuple(stuff);
+    }
 }
 
 void Interpreter::interpretRules() {

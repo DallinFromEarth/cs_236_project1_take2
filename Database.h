@@ -37,7 +37,8 @@ public:
         stringstream out;
         out << "START OF DATABASE" << endl;
         for (auto table : data) {
-            out << table.second->headerToString() << endl << endl;
+            out << table.second->headerToString() << endl;
+            out << table.second->toString() << endl << endl;
         }
         out << "END OF DATABASE" << endl;
         return out.str();

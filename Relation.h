@@ -8,6 +8,8 @@
 #include "Tuple.h"
 #include "RelationHeader.h"
 #include <iostream>
+#include <algorithm>    // std::find
+#include <vector>
 
 using namespace std;
 

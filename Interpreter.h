@@ -5,6 +5,10 @@
 #ifndef PROJECT_1_INTERPRETER_H
 #define PROJECT_1_INTERPRETER_H
 
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
 #include "Database.h"
 #include "DatalogProgram.h"
 

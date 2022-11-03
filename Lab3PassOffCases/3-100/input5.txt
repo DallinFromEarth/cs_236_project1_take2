@@ -32,7 +32,7 @@ Rules:
 
 Queries:
    marriedTo(Y,X)?
-   childOf(Y,Y)? 
+   childOf(Y,Y)?
    childOf(Y,'Bea')?
    siblings(A,B,B,A)?
    siblings(A,C,'George Foreman',A)?

@@ -37,7 +37,6 @@ DatalogProgram Parser::parse() {
         cout << "  " << invalidToken->toString() << endl;
         return program;
     }
-    cout << "Success!" << endl;
     program.programSuccess();
     return program;
 }

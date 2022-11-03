@@ -42,9 +42,12 @@ public:
     string getName() { return name; }
     RelationHeader getHeader() { return header; }
 
+    unsigned int getNumOfRows() { return table.size(); }
+    unsigned int getNumOfCols() { return header.numOfCol(); }
+
     Relation select1(int colIndex, string value);
     Relation select2(int colIndex1, int colIndex2);
-    Relation project(vector<int> columnsToProject);
+    Relation project(vector<unsigned int> columnsToProject);
     Relation rename(vector<string> newColumnNames);
 };
 

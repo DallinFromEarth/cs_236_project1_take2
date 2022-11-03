@@ -7,6 +7,9 @@
 string Relation::toString() {
     stringstream out;
     for (Tuple t : table) {
+        if(header.numOfCol() > 0) {
+            out << "  ";
+        }
         for (unsigned int i = 0; i < header.numOfCol(); i++) {
             out << header.getHeaderAtCol(i) << "=";
             out << t.getEntryAtCol(i);
@@ -39,7 +42,7 @@ Relation Relation::select2(int colIndex1, int colIndex2) {
     return returnRelation;
 }
 
-Relation Relation::project(vector<int> columnsToProject) {
+Relation Relation::project(vector<unsigned int> columnsToProject) {
     vector<string> newHeader;
     for (unsigned int i = 0; i < header.data.size(); i++) {
         //if the current column number is found in the vector columnsToProject
@@ -67,7 +70,7 @@ Relation Relation::rename(vector<string> newColumnNames) {
 
     vector<string> newHeader;
     for (unsigned int i = 0; i < newColumnNames.size(); i++) {
-        newHeader.at(i) = newColumnNames.at(i);
+        newHeader.push_back(newColumnNames.at(i));
     }
     Relation returnRelation(name, newHeader);
     returnRelation.setTable(table);

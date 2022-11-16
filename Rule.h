@@ -18,6 +18,9 @@ public:
     }
 
     string toString();
+
+    vector<Predicate> getBodyPredicates() { return bodyPredicates; }
+    vector<string> getHeadPredicate() { return headPredicate; }
 };
 
 

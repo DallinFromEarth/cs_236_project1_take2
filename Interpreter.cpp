@@ -188,7 +188,7 @@ bool Interpreter::isJoinable(Tuple tuple1, Tuple tuple2, vector<pair<int, int>> 
 }
 
 Tuple Interpreter::combineTuples(Tuple tuple1, Tuple tuple2, vector<pair<int, int>> indexes) {
-    unsigned int i = 0;
+    int i = 0;
     for (auto element : tuple2.data) {
         bool addElement = true;
         for (auto duo : indexes) {

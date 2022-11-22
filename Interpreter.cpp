@@ -65,7 +65,7 @@ void Interpreter::interpretRules() {
         cout << "database:" << endl << databaseRelation.toString() << endl;
         cout << "USA USA USA database:" << endl << unifiedRelation.toString() << endl; */
 
-        Relation actualRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
+        //Relation actualRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
         //cout << "before override:" << endl << actualRelation->toString() << endl;
         data.getRelation( rule.getHeadPredicate().at(0) )->overRideData( unifiedRelation );
         //cout << "after override:" << endl << actualRelation->toString() << endl;
@@ -211,11 +211,9 @@ Relation Interpreter::unification(Relation table1, Relation table2) {
             }
         }
     }else {
-        for(auto row1 : table1.getTable()) {
-            for(auto row2 : table2.getTable()) {
-                if(table1.addTuple(row2)) {
-                    cout << row2.toString(table1.getHeader().data) << endl;
-                }
+        for(auto row2 : table2.getTable()) {
+            if(table1.addTuple(row2)) {
+                cout << row2.toString(table1.getHeader().data) << endl;
             }
         }
     }

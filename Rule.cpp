@@ -4,7 +4,7 @@
 
 #include "Rule.h"
 
-string Rule::toString() {
+string Rule::toString() const {
     stringstream out;
     out << headPredicate.at(0) << "(";
     for (unsigned int i = 1; i < headPredicate.size(); i++) {

@@ -24,7 +24,7 @@ public:
 
     void addParameter(Parameter input) { parameters.push_back(input); }
 
-    string toString();
+    string toString() const;
     string getID() {return id;}
 
     vector<Parameter> getParameters() { return parameters; }

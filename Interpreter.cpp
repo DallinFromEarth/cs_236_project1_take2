@@ -27,7 +27,7 @@ void Interpreter::interpretFacts() {
 }
 
 void Interpreter::interpretRules() {
-    for (Rule rule : program.getRules()) {
+    for (const Rule& rule : program.getRules()) {
         vector<Relation> theTables;
         string newName = rule.getHeadPredicate().at(0);
         for (Predicate bodyPredicate : rule.getBodyPredicates()) {
@@ -47,7 +47,7 @@ void Interpreter::interpretRules() {
         std::reverse(header.begin(), header.end());
 
 
-        for (auto headerValue : header) {
+        for (const auto& headerValue : header) {
             auto currentTable = joinedRelation.getHeader().data;
             auto iter = find(currentTable.begin(), currentTable.end(), headerValue);
             int index = iter - currentTable.begin();
@@ -150,8 +150,8 @@ Relation Interpreter::join(Relation table1, Relation table2, string newName) {
     vector<string> mergedHeader = mergeHeaders(table1, table2);
     Relation currentRelation(newName, mergedHeader);
 
-    for (auto tuple1 : table1.getTable()) {
-        for (auto tuple2 : table2.getTable()) {
+    for (const auto& tuple1 : table1.getTable()) {
+        for (const auto& tuple2 : table2.getTable()) {
             if (isJoinable(tuple1, tuple2, commonVariables)) {
                 currentRelation.addTuple( combineTuples(tuple1, tuple2, commonVariables) );
             }
@@ -186,7 +186,7 @@ vector<string> Interpreter::mergeHeaders(Relation table1, Relation table2) {
 }
 
 bool Interpreter::isJoinable(Tuple tuple1, Tuple tuple2, vector<pair<int, int>> indexes) {
-    for (auto duo : indexes) {
+    for (const auto& duo : indexes) {
         if (tuple1.getEntryAtCol(duo.first) != tuple2.getEntryAtCol(duo.second)) {
             return false;
         }
@@ -196,7 +196,7 @@ bool Interpreter::isJoinable(Tuple tuple1, Tuple tuple2, vector<pair<int, int>> 
 
 Tuple Interpreter::combineTuples(Tuple tuple1, Tuple tuple2, vector<pair<int, int>> indexes) {
     int i = 0;
-    for (auto element : tuple2.data) {
+    for (const auto& element : tuple2.data) {
         bool addElement = true;
         for (auto duo : indexes) {
             if (duo.second == i) { addElement = false;}
@@ -212,9 +212,9 @@ Tuple Interpreter::combineTuples(Tuple tuple1, Tuple tuple2, vector<pair<int, in
 Relation Interpreter::unification(Relation table1, Relation table2) {
     //for each row in table1
     if (table1.getNumOfRows() == 0) {
-        for(auto row2 : table2.getTable()) {
+        for(const auto& row2 : table2.getTable()) {
             if(table1.addTuple(row2)) {
-                cout << row2.toString(table1.getHeader().data) << endl;
+                cout << row2.toString( table1.getHeader().data) << endl;
             }
         }
     }else {
@@ -231,14 +231,14 @@ void Interpreter::fixPointAlgorithm() {
     bool moreToInterpret = true;
     vector<unsigned int> oldTotals;
     vector<unsigned int> newTotals;
-    for (auto rule : program.getRules()) {
+    for (const auto& rule : program.getRules()) {
         oldTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
     }
 
     interpretRules();
     passThroughs++;
 
-    for (auto rule : program.getRules()) {
+    for (const auto& rule : program.getRules()) {
         newTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
     }
 
@@ -253,7 +253,7 @@ void Interpreter::fixPointAlgorithm() {
         passThroughs++;
 
         unsigned int i = 0;
-        for (auto rule : program.getRules()) {
+        for (const auto& rule : program.getRules()) {
             newTotals.at(i) = data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows();
             i++;
         }

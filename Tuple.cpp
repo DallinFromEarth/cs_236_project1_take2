@@ -4,7 +4,7 @@
 
 #include "Tuple.h"
 
-string Tuple::toString(vector<string> header) {
+string Tuple::toString(vector<string> header) const {
     stringstream out;
     out << "  ";
     //POTENTIAL BUG TO FIX - SEE RULE.H for call

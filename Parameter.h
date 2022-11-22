@@ -15,7 +15,7 @@ private:
 public:
     Parameter(string inputValue) { actualValue = inputValue; }
 
-    string getActualValue() { return actualValue; }
+    string getActualValue() const { return actualValue; }
 };
 
 

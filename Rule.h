@@ -24,10 +24,10 @@ public:
         evaluations = "";
     }
 
-    string toString();
+    string toString() const;
 
-    vector<Predicate> getBodyPredicates() { return bodyPredicates; }
-    vector<string> getHeadPredicate() { return headPredicate; }
+    vector<Predicate> getBodyPredicates() const { return bodyPredicates; }
+    vector<string> getHeadPredicate() const { return headPredicate; }
 };
 
 

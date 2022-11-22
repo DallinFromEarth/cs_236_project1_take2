@@ -54,7 +54,6 @@ Relation Relation::project(vector<unsigned int> columnsToProject) {
     Relation returnRelation(name, newHeader);
     for(Tuple row : table) {
         vector<string> newRow;
-        //TODO rework this so it only checks data.at() in the order of columnsToProject
         for (int i : columnsToProject) {
             newRow.push_back( row.getEntryAtCol(i) );
         }
@@ -66,8 +65,6 @@ Relation Relation::project(vector<unsigned int> columnsToProject) {
                 newRow.push_back(row.data[i]);
             }
         }*/
-
-
 
         returnRelation.addTuple(Tuple(newRow));
     }

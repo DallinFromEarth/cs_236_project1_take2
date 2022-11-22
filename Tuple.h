@@ -20,7 +20,7 @@ public:
 
     vector<string> data;
 
-    string toString(vector<string> header);
+    string toString(vector<string> header) const;
     string getEntryAtCol(unsigned int col) { return data.at(col); }
 
     bool operator< (const Tuple &rhs) const {

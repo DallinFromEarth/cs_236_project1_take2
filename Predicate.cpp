@@ -4,7 +4,7 @@
 
 #include "Predicate.h"
 
-string Predicate::toString() {
+string Predicate::toString() const {
     stringstream out;
     out << id << "(";
     for (unsigned int i = 0; i < parameters.size(); i++) {

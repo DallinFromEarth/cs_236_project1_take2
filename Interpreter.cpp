@@ -152,7 +152,16 @@ Relation Interpreter::join(Relation table1, Relation table2, string newName) {
 
     for (const auto& tuple1 : table1.getTable()) {
         for (const auto& tuple2 : table2.getTable()) {
-            if (isJoinable(tuple1, tuple2, commonVariables)) {
+            bool isJoinable = true;
+            for (const auto& duo : commonVariables) {
+                if (tuple1.getEntryAtCol(duo.first) != tuple2.getEntryAtCol(duo.second)) {
+                    isJoinable = false;
+                }
+            }
+            //isJoinable = true;
+
+            //isJoinable(tuple1, tuple2, commonVariables)
+            if (isJoinable) {
                 currentRelation.addTuple( combineTuples(tuple1, tuple2, commonVariables) );
             }
         }

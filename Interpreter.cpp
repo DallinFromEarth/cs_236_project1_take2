@@ -46,11 +46,18 @@ void Interpreter::interpretRules() {
         header.pop_back();
         std::reverse(header.begin(), header.end());
 
-        for (unsigned int i = 0; i < joinedRelation.getNumOfCols(); i++) {
+
+        for (auto headerValue : header) {
+            auto currentTable = joinedRelation.getHeader().data;
+            auto iter = find(currentTable.begin(), currentTable.end(), headerValue);
+            int index = iter - currentTable.begin();
+            columnIndexes.push_back(index);
+        }
+        /*for (unsigned int i = 0; i < joinedRelation.getNumOfCols(); i++) {
             if(find(header.begin(), header.end(), joinedRelation.getColHeaderAt(i)) != header.end()) {
                 columnIndexes.push_back(i);
             }
-        }
+        }*/
 
         Relation databaseRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
         Relation projectedRelation = joinedRelation.project(columnIndexes);

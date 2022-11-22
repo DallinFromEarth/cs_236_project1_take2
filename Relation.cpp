@@ -54,12 +54,21 @@ Relation Relation::project(vector<unsigned int> columnsToProject) {
     Relation returnRelation(name, newHeader);
     for(Tuple row : table) {
         vector<string> newRow;
+        //TODO rework this so it only checks data.at() in the order of columnsToProject
+        for (int i : columnsToProject) {
+            newRow.push_back( row.getEntryAtCol(i) );
+        }
+
+        /*
         for (unsigned int i = 0; i < row.data.size(); i++) {
             //if the current column number is found in the vector columnsToProject
             if(find(columnsToProject.begin(), columnsToProject.end(), i) != columnsToProject.end()) {
                 newRow.push_back(row.data[i]);
             }
-        }
+        }*/
+
+
+
         returnRelation.addTuple(Tuple(newRow));
     }
     return returnRelation;

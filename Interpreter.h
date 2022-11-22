@@ -22,13 +22,17 @@ private:
 
     string answers;
 
+    int passThroughs;
+
 public:
-    Interpreter(DatalogProgram input) { program = input; }
+    Interpreter(DatalogProgram input) { program = input; passThroughs = 0; }
 
     void interpretSchemes();
     void interpretFacts();
     void interpretRules();
     void interpertQueries();
+
+    void fixPointAlgorithm();
 
     Relation interpretPredicate(Predicate table);
 
@@ -37,14 +41,16 @@ public:
 
     string getDataBaseString() { return data.toString(); }
 
-    Relation join(Relation table) { cout << "single table join"<< endl; return table; }
     Relation join(Relation table1, Relation table2, string newName);
+    Relation unification(Relation table1, Relation table2);
 
     vector<pair<int,int>> getCommonHeaders(Relation table1, Relation table2);
     vector<string> mergeHeaders(Relation table1, Relation table2);
 
     bool isJoinable(Tuple, Tuple, vector<pair<int,int>>);
     Tuple combineTuples(Tuple, Tuple, vector<pair<int,int>>);
+
+    string newTupleString(Relation oldRelation, Relation* newRelation);
 };
 
 

@@ -43,6 +43,7 @@ public:
     vector<Predicate> getFacts() { return facts; }
     vector<Predicate> getQueries() { return queries; }
     vector<Rule> getRules() { return rules; }
+    vector<Rule>* getEditableRules() { return &rules; }
 };
 
 

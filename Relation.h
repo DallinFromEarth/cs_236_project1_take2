@@ -38,7 +38,7 @@ public:
 
     string toString();
     string headerToString() { return header.toString(); }
-    void addTuple(Tuple input){ table.insert(input); }
+    bool addTuple(Tuple input){ return table.insert(input).second; }
     set<Tuple> getTable() { return table; }
     void setTable(set<Tuple> newTable) { table = newTable; }
     string getName() { return name; }
@@ -46,11 +46,13 @@ public:
 
     unsigned int getNumOfRows() { return table.size(); }
     unsigned int getNumOfCols() { return header.numOfCol(); }
+    string getColHeaderAt(unsigned int i) { return header.getHeaderAtCol(i); }
 
     Relation select1(int colIndex, string value);
     Relation select2(int colIndex1, int colIndex2);
     Relation project(vector<unsigned int> columnsToProject);
     Relation rename(vector<string> newColumnNames);
+    void overRideData(Relation updatedRelation) { table = updatedRelation.getTable(); }
 
 
 };

@@ -53,11 +53,6 @@ void Interpreter::interpretRules() {
             int index = iter - currentTable.begin();
             columnIndexes.push_back(index);
         }
-        /*for (unsigned int i = 0; i < joinedRelation.getNumOfCols(); i++) {
-            if(find(header.begin(), header.end(), joinedRelation.getColHeaderAt(i)) != header.end()) {
-                columnIndexes.push_back(i);
-            }
-        }*/
 
         Relation databaseRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
         Relation projectedRelation = joinedRelation.project(columnIndexes);
@@ -65,17 +60,7 @@ void Interpreter::interpretRules() {
         cout << rule.toString() << endl;
         Relation unifiedRelation = unification(databaseRelation, renamedRelation);
 
-        /*cout << "rule:" << endl << rule.toString() << endl;
-        cout << "joined:" << endl << joinedRelation.toString() << endl;
-        cout << "projected:" << endl <<  projectedRelation.toString() << endl;
-        cout << "renamed:" << endl << renamedRelation.toString() << endl;
-        cout << "database:" << endl << databaseRelation.toString() << endl;
-        cout << "USA USA USA database:" << endl << unifiedRelation.toString() << endl; */
-
-        //Relation actualRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
-        //cout << "before override:" << endl << actualRelation->toString() << endl;
         data.getRelation( rule.getHeadPredicate().at(0) )->overRideData( unifiedRelation );
-        //cout << "after override:" << endl << actualRelation->toString() << endl;
     }
 }
 

@@ -12,6 +12,7 @@
 
 #include "Database.h"
 #include "DatalogProgram.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -22,7 +23,10 @@ private:
 
     string answers;
 
-    int passThroughs;
+    //int passThroughs;
+
+    Graph forwardGraph;
+    Graph reverseGraph;
 
 public:
     Interpreter(DatalogProgram input) { program = input; passThroughs = 0; }
@@ -32,7 +36,7 @@ public:
     void interpretRules();
     void interpertQueries();
 
-    void fixPointAlgorithm();
+    int fixPointAlgorithm(set<int> component);
 
     Relation interpretPredicate(Predicate table);
 
@@ -51,6 +55,14 @@ public:
     Tuple combineTuples(Tuple, Tuple, vector<pair<int,int>>);
 
     string newTupleString(Relation oldRelation, Relation* newRelation);
+
+    void interpretAndUpdate(const Rule rule);
+
+    vector<set<int>> findDependencies();
+
+    void createGraphs();
+
+    vector<Rule> findSelectedRules(set<int> rulesToFind);
 };
 
 

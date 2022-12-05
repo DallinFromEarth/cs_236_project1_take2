@@ -4,6 +4,65 @@
 
 #include "Interpreter.h"
 
+void Interpreter::interpretRules() {
+    for (const Rule &rule: program.getRules()) {
+        interpretAndUpdate(rule);
+    }
+}
+
+vector<Rule> Interpreter::findSelectedRules(set<int> rulesToFind) {
+    vector<Rule> returnVector;
+    vector<Rule> progamRules = program.getRules();
+    for (auto rule : rulesToFind) {
+        returnVector.push_back(progamRules.at(rule));
+    }
+    return returnVector;
+}
+
+int Interpreter::fixPointAlgorithm(set<int> component) {
+    auto ruleList = findSelectedRules(component);
+    int passThroughs = 0;
+
+    bool moreToInterpret = true;
+    vector<unsigned int> oldTotals;
+    vector<unsigned int> newTotals;
+    for (const auto& rule : ruleList) {
+        oldTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
+    }
+
+    interpretRules();
+    passThroughs++;
+
+    for (const auto& rule : ruleList) {
+        newTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
+    }
+
+    if (newTotals == oldTotals) {
+        moreToInterpret = false;
+    }
+
+    oldTotals = newTotals;
+
+    while (moreToInterpret) {
+        interpretRules();
+        passThroughs++;
+
+        unsigned int i = 0;
+        for (const auto& rule : ruleList) {
+            newTotals.at(i) = data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows();
+            i++;
+        }
+
+        if (newTotals == oldTotals) {
+            moreToInterpret = false;
+        }
+
+        oldTotals = newTotals;
+    }
+    return passThroughs;
+}
+
+
 void Interpreter::interpretSchemes() {
     for (Predicate scheme : program.getSchemes()) {
         vector<string> header;
@@ -26,44 +85,6 @@ void Interpreter::interpretFacts() {
     }
 }
 
-void Interpreter::interpretRules() {
-    for (const Rule& rule : program.getRules()) {
-        vector<Relation> theTables;
-        string newName = rule.getHeadPredicate().at(0);
-        for (Predicate bodyPredicate : rule.getBodyPredicates()) {
-            theTables.push_back( interpretPredicate(bodyPredicate) );
-        }
-
-        Relation joinedRelation = join(theTables.at(0), theTables.at(0), newName);
-
-        for (unsigned int i = 1; i < theTables.size(); i++) {
-            joinedRelation = join(joinedRelation, theTables.at(i), newName);
-        }
-
-        vector<unsigned int> columnIndexes;
-        auto header = rule.getHeadPredicate();
-        reverse(header.begin(), header.end());
-        header.pop_back();
-        std::reverse(header.begin(), header.end());
-
-
-        for (const auto& headerValue : header) {
-            auto currentTable = joinedRelation.getHeader().data;
-            auto iter = find(currentTable.begin(), currentTable.end(), headerValue);
-            int index = iter - currentTable.begin();
-            columnIndexes.push_back(index);
-        }
-
-        Relation databaseRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
-        Relation projectedRelation = joinedRelation.project(columnIndexes);
-        Relation renamedRelation = projectedRelation.rename( databaseRelation.getHeader().data );
-        cout << rule.toString() << endl;
-        Relation unifiedRelation = unification(databaseRelation, renamedRelation);
-
-        data.getRelation( rule.getHeadPredicate().at(0) )->overRideData( unifiedRelation );
-    }
-}
-
 void Interpreter::interpertQueries() {
     for (Predicate query : program.getQueries()) {
         Relation currentRelation = interpretPredicate(query);
@@ -83,15 +104,34 @@ void Interpreter::interpertQueries() {
 }
 
 void Interpreter::run() {
+    createGraphs();
+    cout << "forward" << endl;
+    cout << forwardGraph.toStringDependency() << endl;
+    cout << "reverse" << endl;
+    cout << reverseGraph.toStringDependency() << endl;
+
+    auto postorder = reverseGraph.dfsForestPostOrder();
+    cout << reverseGraph.postorderString() << endl;
+    auto scc = forwardGraph.dfsForestSCC(postorder);
+
+    cout << "Security Exchange Commissions: " << endl;
+    for (auto group : scc) {
+        for (auto meme : group) { cout << meme << " "; }
+        cout << endl;
+    }
+    cout << endl << endl << endl << endl;
+
+
+
+
     interpretSchemes();
     interpretFacts();
     //interpretRules(); FIX POINT RUNS THIS YO
 
     cout << "Rule Evaluation" << endl;
-
     fixPointAlgorithm();
 
-    cout << endl << "Schemes populated after " << passThroughs << " passes through the Rules." << endl;
+    //cout << endl << "Schemes populated after " << passThroughs << " passes through the Rules." << endl;
 
     cout << endl << "Query Evaluation" << endl;
 
@@ -221,46 +261,6 @@ Relation Interpreter::unification(Relation table1, Relation table2) {
     return table1;
 }
 
-void Interpreter::fixPointAlgorithm() {
-    bool moreToInterpret = true;
-    vector<unsigned int> oldTotals;
-    vector<unsigned int> newTotals;
-    for (const auto& rule : program.getRules()) {
-        oldTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
-    }
-
-    interpretRules();
-    passThroughs++;
-
-    for (const auto& rule : program.getRules()) {
-        newTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
-    }
-
-    if (newTotals == oldTotals) {
-        moreToInterpret = false;
-    }
-
-    oldTotals = newTotals;
-
-    while (moreToInterpret) {
-        interpretRules();
-        passThroughs++;
-
-        unsigned int i = 0;
-        for (const auto& rule : program.getRules()) {
-            newTotals.at(i) = data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows();
-            i++;
-        }
-
-        if (newTotals == oldTotals) {
-            moreToInterpret = false;
-        }
-
-        oldTotals = newTotals;
-    }
-    return;
-}
-
 string Interpreter::newTupleString(Relation oldRelation, Relation* newRelation) {
     stringstream out;
     unsigned int i = 0;
@@ -281,6 +281,76 @@ string Interpreter::newTupleString(Relation oldRelation, Relation* newRelation) 
     }
     cout << "memes" << out.str() << endl;
     return out.str();
+}
+
+void Interpreter::interpretAndUpdate(const Rule rule) {
+    vector<Relation> theTables;
+    string newName = rule.getHeadPredicate().at(0);
+    for (Predicate bodyPredicate : rule.getBodyPredicates()) {
+        theTables.push_back( interpretPredicate(bodyPredicate) );
+    }
+
+    Relation joinedRelation = join(theTables.at(0), theTables.at(0), newName);
+
+    for (unsigned int i = 1; i < theTables.size(); i++) {
+        joinedRelation = join(joinedRelation, theTables.at(i), newName);
+    }
+
+    vector<unsigned int> columnIndexes;
+    auto header = rule.getHeadPredicate();
+    reverse(header.begin(), header.end());
+    header.pop_back();
+    std::reverse(header.begin(), header.end());
+
+
+    for (const auto& headerValue : header) {
+        auto currentTable = joinedRelation.getHeader().data;
+        auto iter = find(currentTable.begin(), currentTable.end(), headerValue);
+        int index = iter - currentTable.begin();
+        columnIndexes.push_back(index);
+    }
+
+    Relation databaseRelation = data.getRelationCopy( rule.getHeadPredicate().at(0) );
+    Relation projectedRelation = joinedRelation.project(columnIndexes);
+    Relation renamedRelation = projectedRelation.rename( databaseRelation.getHeader().data );
+    cout << rule.toString() << endl;
+    Relation unifiedRelation = unification(databaseRelation, renamedRelation);
+
+    data.getRelation( rule.getHeadPredicate().at(0) )->overRideData( unifiedRelation );
+}
+
+vector<set<int>> Interpreter::findDependencies() {
+    vector<set<int>> returnVector;
+    for (Rule rule : program.getRules()) {
+        set<int> currentSet;
+        for (auto body : rule.getBodyPredicates()) {
+            int i = 0;
+            for (Rule compare : program.getRules()) {
+                if (compare.getHeadPredicate().at(0) == body.getID()) {
+                    currentSet.insert(i);
+                }
+                i++;
+            }
+        }
+        returnVector.push_back(currentSet);
+    }
+    return returnVector;
+}
+
+void Interpreter::createGraphs() {
+    int numOfRules = program.getRules().size();
+    forwardGraph.loadMap(numOfRules);
+    reverseGraph.loadMap(numOfRules);
+
+    int i = 0;
+    auto foundDependencies = findDependencies();
+    for(unsigned int i = 0; i < numOfRules; i++) {
+        set<int> dependantRules = foundDependencies.at(i);
+        for (const int& j : dependantRules) {
+            forwardGraph.addEdge(i, j);
+            reverseGraph.addEdge(j, i);
+        }
+    }
 }
 
 

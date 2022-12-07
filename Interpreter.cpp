@@ -125,7 +125,7 @@ void Interpreter::run() {
     cout << "Rule Evaluation" << endl;
     for (auto group : scc) {
         cout << "SCC: ";
-        int counter = 0;
+        unsigned int counter = 0;
         for (auto element : group) {
             cout << "R" << element;
             if (counter != group.size() - 1){

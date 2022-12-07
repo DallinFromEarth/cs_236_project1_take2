@@ -12,7 +12,6 @@ all: $(buckets)
 
 $(buckets):
 	echo "Bucket $@"; \
-	echo "dun dun dunnnnn"; \
 	for number in ${numbers_$@} ; \
 	do \
 		echo "Running input $$number" ; \

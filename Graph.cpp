@@ -9,7 +9,7 @@ string Graph::toStringDependency() {
     stringstream out;
 
     out << "Dependency Graph" << endl;
-    for ( auto node : dependencies ) {
+    for ( const auto& node : dependencies ) {
         out << "R" << node.first << ":";
         unsigned int counter = 0;
         for ( auto depends : node.second ) {
@@ -34,7 +34,7 @@ void Graph::loadMap(int size) {
 void Graph::dfs(int node) {
     markVisted(node);
     auto edges = dependencies.at(node);
-    for (auto edge : edges) {
+    for (const auto& edge : edges) {
         if(!isVisted(edge)) { dfs(edge); }
     }
     postorder.push_back(node);
@@ -60,7 +60,7 @@ void Graph::clearVisited() {
 string Graph::postorderString() {
     stringstream out;
     out << "Postorder: ";
-    for (auto x : postorder) {
+    for (const auto& x : postorder) {
         out << x << " ";
     }
     out << endl;
@@ -74,11 +74,11 @@ vector<set<int>> Graph::dfsForestSCC( vector<int> thePostOrder ) {
     vector<set<int>> returnList;
     clearVisited();
     if (!postorder.empty()) { throw "Calling dfsForestSCC() after postorder already filled out"; }
-    for (auto i : thePostOrder) {
+    for (const auto& i : thePostOrder) {
         if (!isVisted(i)) {
             dfs(i);
             set<int> currentSCC;
-            for (auto node : postorder) { currentSCC.insert(node); }
+            for (const auto& node : postorder) { currentSCC.insert(node); }
             postorder.clear();
             returnList.push_back(currentSCC);
         }

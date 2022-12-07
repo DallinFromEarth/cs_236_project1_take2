@@ -13,7 +13,7 @@ void Interpreter::interpretRules() {
 vector<Rule> Interpreter::findSelectedRules(set<int> rulesToFind) {
     vector<Rule> returnVector;
     vector<Rule> programRules = program.getRules();
-    for (auto rule : rulesToFind) {
+    for (const auto& rule : rulesToFind) {
         returnVector.push_back(programRules.at(rule));
     }
     return returnVector;
@@ -75,7 +75,7 @@ int Interpreter::fixPointAlgorithm(set<int> component) {
 void Interpreter::interpretSchemes() {
     for (Predicate scheme : program.getSchemes()) {
         vector<string> header;
-        for (Parameter parameter : scheme.getParameters()) {
+        for (const Parameter& parameter : scheme.getParameters()) {
             header.push_back(parameter.getActualValue());
         }
         Relation* relation = new Relation(scheme.getID(), header);
@@ -95,7 +95,7 @@ void Interpreter::interpretFacts() {
 }
 
 void Interpreter::interpertQueries() {
-    for (Predicate query : program.getQueries()) {
+    for (const Predicate& query : program.getQueries()) {
         Relation currentRelation = interpretPredicate(query);
 
         stringstream out;
@@ -123,10 +123,10 @@ void Interpreter::run() {
 
 
     cout << "Rule Evaluation" << endl;
-    for (auto group : scc) {
+    for (const auto& group : scc) {
         cout << "SCC: ";
         unsigned int counter = 0;
-        for (auto element : group) {
+        for (const auto& element : group) {
             cout << "R" << element;
             if (counter != group.size() - 1){
                 cout << ",";
@@ -137,7 +137,7 @@ void Interpreter::run() {
         cout << endl << fixPointAlgorithm(group) << " passes: ";
 
         counter = 0;
-        for (auto element : group) {
+        for (const auto& element : group) {
             cout << "R" << element;
             if (counter != group.size() - 1){
                 cout << ",";
@@ -147,15 +147,7 @@ void Interpreter::run() {
         cout << endl;
     };
 
-
-
-
-
-
-    //cout << endl << "Schemes populated after " << passThroughs << " passes through the Rules." << endl;
-
     cout << endl << "Query Evaluation" << endl;
-
     interpertQueries();
 }
 
@@ -342,11 +334,11 @@ void Interpreter::interpretAndUpdate(const Rule rule) {
 
 vector<set<int>> Interpreter::findDependencies() {
     vector<set<int>> returnVector;
-    for (Rule rule : program.getRules()) {
+    for (const Rule& rule : program.getRules()) {
         set<int> currentSet;
         for (auto body : rule.getBodyPredicates()) {
             int i = 0;
-            for (Rule compare : program.getRules()) {
+            for (const Rule& compare : program.getRules()) {
                 if (compare.getHeadPredicate().at(0) == body.getID()) {
                     currentSet.insert(i);
                 }

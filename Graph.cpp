@@ -88,10 +88,7 @@ vector<set<int>> Graph::dfsForestSCC( vector<int> thePostOrder ) {
 
 bool Graph::onlyHasSelfLoop(int node) {
     auto steve = dependencies.at(node);
-    for (auto x : steve){
-        return !steve.insert(node).second;
-    }
-    return false;
+    return !steve.insert(node).second;
 }
 
 

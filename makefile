@@ -1,5 +1,5 @@
 #makefile for lab 4 pass off cases
-NUM:=4
+NUM:=5
 buckets:=80 100
 numbers_80:=0 1 2 3 4 5 6 7
 numbers_100:=1 2 3 5 6 7 8
@@ -14,7 +14,7 @@ $(buckets):
 	echo "Bucket $@"; \
 	for number in ${numbers_$@} ; \
 	do \
-		echo "Running input $$number" ; \
+		echo "Running input $$number cause you're a goober" ; \
 		./lab$(NUM) $(tests)/$(NUM)-$@/input$$number.txt > $(tests)/out.txt ; \
 		diff -w $(tests)/$(NUM)-$@/answer$$number.txt $(tests)/out.txt || (echo "diff failed on test $$number loser\n") ; \
 	done \

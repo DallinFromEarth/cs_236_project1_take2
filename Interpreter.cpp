@@ -363,7 +363,6 @@ void Interpreter::createGraphs() {
     forwardGraph.loadMap(numOfRules);
     reverseGraph.loadMap(numOfRules);
 
-    int i = 0;
     auto foundDependencies = findDependencies();
     for(unsigned int i = 0; i < numOfRules; i++) {
         set<int> dependantRules = foundDependencies.at(i);

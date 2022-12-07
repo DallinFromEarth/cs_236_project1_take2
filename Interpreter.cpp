@@ -145,8 +145,7 @@ void Interpreter::run() {
             counter++;
         }
         cout << endl;
-    }
-    cout;
+    };
 
 
 
@@ -360,7 +359,7 @@ vector<set<int>> Interpreter::findDependencies() {
 }
 
 void Interpreter::createGraphs() {
-    int numOfRules = program.getRules().size();
+    unsigned int numOfRules = program.getRules().size();
     forwardGraph.loadMap(numOfRules);
     reverseGraph.loadMap(numOfRules);
 

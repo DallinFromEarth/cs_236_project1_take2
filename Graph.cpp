@@ -11,7 +11,7 @@ string Graph::toStringDependency() {
     out << "Dependency Graph" << endl;
     for ( auto node : dependencies ) {
         out << "R" << node.first << ":";
-        int counter = 0;
+        unsigned int counter = 0;
         for ( auto depends : node.second ) {
             out << "R" << depends;
             if (counter < node.second.size() - 1) { out << ","; }
@@ -24,7 +24,7 @@ string Graph::toStringDependency() {
 }
 
 void Graph::loadMap(int size) {
-    for (unsigned int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         dependencies.insert({i, set<int>()});
         visited.push_back(false);
     }

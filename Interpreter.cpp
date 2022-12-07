@@ -12,9 +12,9 @@ void Interpreter::interpretRules() {
 
 vector<Rule> Interpreter::findSelectedRules(set<int> rulesToFind) {
     vector<Rule> returnVector;
-    vector<Rule> progamRules = program.getRules();
+    vector<Rule> programRules = program.getRules();
     for (auto rule : rulesToFind) {
-        returnVector.push_back(progamRules.at(rule));
+        returnVector.push_back(programRules.at(rule));
     }
     return returnVector;
 }
@@ -30,7 +30,9 @@ int Interpreter::fixPointAlgorithm(set<int> component) {
         oldTotals.push_back( data.getRelation( rule.getHeadPredicate().at(0) )->getNumOfRows() );
     }
 
-    interpretRules();
+    for (const Rule &rule: ruleList) {
+        interpretAndUpdate(rule);
+    }
     passThroughs++;
 
     for (const auto& rule : ruleList) {
@@ -41,10 +43,17 @@ int Interpreter::fixPointAlgorithm(set<int> component) {
         moreToInterpret = false;
     }
 
+    auto steve = *component.begin();
+    if ( (!forwardGraph.onlyHasSelfLoop(steve)) && component.size() == 1) {
+        return 1;
+    }
+
     oldTotals = newTotals;
 
     while (moreToInterpret) {
-        interpretRules();
+        for (const Rule &rule: ruleList) {
+            interpretAndUpdate(rule);
+        }
         passThroughs++;
 
         unsigned int i = 0;
@@ -105,31 +114,44 @@ void Interpreter::interpertQueries() {
 
 void Interpreter::run() {
     createGraphs();
-    cout << "forward" << endl;
-    cout << forwardGraph.toStringDependency() << endl;
-    cout << "reverse" << endl;
-    cout << reverseGraph.toStringDependency() << endl;
-
-    auto postorder = reverseGraph.dfsForestPostOrder();
-    cout << reverseGraph.postorderString() << endl;
-    auto scc = forwardGraph.dfsForestSCC(postorder);
-
-    cout << "Security Exchange Commissions: " << endl;
-    for (auto group : scc) {
-        for (auto meme : group) { cout << meme << " "; }
-        cout << endl;
-    }
-    cout << endl << endl << endl << endl;
-
-
-
-
     interpretSchemes();
     interpretFacts();
-    //interpretRules(); FIX POINT RUNS THIS YO
+    cout << forwardGraph.toStringDependency() << endl;
+
+    auto postorder = reverseGraph.dfsForestPostOrder();
+    auto scc = forwardGraph.dfsForestSCC(postorder);
+
 
     cout << "Rule Evaluation" << endl;
-    fixPointAlgorithm();
+    for (auto group : scc) {
+        cout << "SCC: ";
+        int counter = 0;
+        for (auto element : group) {
+            cout << "R" << element;
+            if (counter != group.size() - 1){
+                cout << ",";
+            }
+            counter++;
+        }
+
+        cout << endl << fixPointAlgorithm(group) << " passes: ";
+
+        counter = 0;
+        for (auto element : group) {
+            cout << "R" << element;
+            if (counter != group.size() - 1){
+                cout << ",";
+            }
+            counter++;
+        }
+        cout << endl;
+    }
+    cout;
+
+
+
+
+
 
     //cout << endl << "Schemes populated after " << passThroughs << " passes through the Rules." << endl;
 

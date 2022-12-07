@@ -37,6 +37,8 @@ public:
     vector<set<int>> dfsForestSCC( vector<int> thePostOrder );
 
     string postorderString();
+
+    bool onlyHasSelfLoop(int node);
 };
 
 

@@ -29,7 +29,10 @@ private:
     Graph reverseGraph;
 
 public:
-    Interpreter(DatalogProgram input) { program = input; passThroughs = 0; }
+    Interpreter(DatalogProgram input) {
+        program = input;
+        //passThroughs = 0;
+    }
 
     void interpretSchemes();
     void interpretFacts();

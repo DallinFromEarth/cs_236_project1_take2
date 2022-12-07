@@ -8,7 +8,7 @@
 string Graph::toStringDependency() {
     stringstream out;
 
-    out << "Dependency Graph:" << endl;
+    out << "Dependency Graph" << endl;
     for ( auto node : dependencies ) {
         out << "R" << node.first << ":";
         int counter = 0;
@@ -84,6 +84,14 @@ vector<set<int>> Graph::dfsForestSCC( vector<int> thePostOrder ) {
         }
     }
     return returnList;
+}
+
+bool Graph::onlyHasSelfLoop(int node) {
+    auto steve = dependencies.at(node);
+    for (auto x : steve){
+        return (steve.size() == 1) && (x == node);
+    }
+    return false;
 }
 
 
